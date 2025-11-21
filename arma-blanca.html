@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lesiones por arma blanca – Ruta forense</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #11111b;
+      --bg-soft: #191927;
+      --accent: #ff5678;
+      --accent-soft: rgba(255, 86, 120, 0.14);
+      --accent-alt: #45e0a8;
+      --text-main: #f8f8ff;
+      --text-muted: #b2b5d6;
+      --card: #1f1f30;
+      --border: rgba(255, 255, 255, 0.12);
+      --radius: 18px;
+      --shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(255, 86, 120, 0.18), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(69, 224, 168, 0.18), transparent 55%),
+        var(--bg);
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .page {
+      width: 100%;
+      max-width: 1100px;
+      background: linear-gradient(135deg, #151520, #10101a);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 20px 22px 24px;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .title-block h1 {
+      margin: 0;
+      font-size: 1.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .title-block p {
+      margin: 4px 0 0;
+      color: var(--text-muted);
+      max-width: 520px;
+      font-size: 0.9rem;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+    }
+    .tag span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 9px rgba(255, 86, 120, 0.7);
+    }
+    a.btn {
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+    .btn {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .btn-accent {
+      border-color: rgba(255, 86, 120, 0.8);
+      background: linear-gradient(135deg, #ff5678, #ff1b5a);
+      color: #12040a;
+      box-shadow: 0 0 15px rgba(255, 86, 120, 0.6);
+    }
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.1fr);
+      gap: 16px;
+    }
+    section {
+      background: var(--bg-soft);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 14px 16px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    section h2 {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--accent-alt);
+    }
+    section p {
+      margin: 0 0 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.03);
+      margin-bottom: 6px;
+    }
+    .types-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .type-card {
+      background: radial-gradient(circle at 0 0, var(--accent-soft), transparent 60%) var(--card);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 10px 10px 12px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, border-color 0.12s ease-out;
+    }
+    .type-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
+      border-color: rgba(255, 86, 120, 0.7);
+    }
+    .type-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .pill {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .type-main {
+      font-size: 0.8rem;
+      margin-bottom: 4px;
+      color: var(--text-muted);
+    }
+    .type-extra {
+      font-size: 0.75rem;
+      color: var(--accent-alt);
+      opacity: 0.9;
+    }
+    .checklist {
+      list-style: none;
+      margin: 6px 0 0;
+      padding-left: 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .checklist li {
+      margin-bottom: 4px;
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+    }
+    .checklist li::before {
+      content: "✦";
+      color: var(--accent-alt);
+      font-size: 0.7rem;
+      margin-top: 2px;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .flow-step {
+      border-radius: 12px;
+      background: rgba(8, 8, 16, 0.9);
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      padding: 7px 9px;
+      font-size: 0.78rem;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .flow-step strong {
+      color: var(--accent);
+      font-size: 0.78rem;
+    }
+    .flow-step span.num {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      margin-right: 4px;
+    }
+    .sem {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 0.78rem;
+    }
+    .sem-card {
+      border-radius: 10px;
+      padding: 6px 7px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .sem-card h3 {
+      margin: 0 0 4px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .sem-card ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .sem-card li {
+      margin-bottom: 2px;
+    }
+    .sem-accidental h3 { color: #46d0ff; }
+    .sem-suicida h3 { color: #ffc857; }
+    .sem-homicida h3 { color: #ff5678; }
+    .img-panel {
+      margin-top: 10px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #0c0c14;
+    }
+    .img-panel img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .img-caption {
+      padding: 6px 8px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: #141421;
+    }
+    .tip {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-radius: 10px;
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      padding: 6px 7px;
+    }
+    .type-card.active {
+      border-color: var(--accent-alt);
+      box-shadow: 0 0 18px rgba(69, 224, 168, 0.4);
+    }
+    @media (max-width: 860px) {
+      main { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="title-block">
+      <h1>Lesiones por arma blanca</h1>
+      <p>
+        Hoja, punta y fuerza dejan una huella distinta. Esta ficha te guía para reconocer
+        el tipo de lesión, el arma probable y la orientación médico-legal básica.
+      </p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;">
+      <div class="tag"><span></span> Ficha rápida / Medicina legal</div>
+      <a class="btn" href="index.html">← Volver al juego CSI</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- COLUMNA IZQUIERDA -->
+    <section>
+      <span class="badge">Paso 1 · Qué estoy viendo</span>
+      <h2>Tipos básicos de armas blancas y huellas</h2>
+      <p>Pulsa sobre cada tarjeta para remarcar la que estés estudiando.</p>
+
+      <div class="types-grid">
+        <div class="type-card" data-type="punzante">
+          <div class="type-title">
+            <span>PUNZANTES</span>
+            <span class="pill">Profundidad &gt; longitud</span>
+          </div>
+          <div class="type-main">
+            Orificio pequeño y profundo, a modo de punto u “ojal”. Predomina la
+            penetración sobre la sección.
+          </div>
+          <div class="type-extra">
+            Ejemplos: punzón, destornillador, picahielo, aguja gruesa.
+          </div>
+        </div>
+
+        <div class="type-card" data-type="cortante">
+          <div class="type-title">
+            <span>CORTANTES</span>
+            <span class="pill">Longitud &gt; profundidad</span>
+          </div>
+          <div class="type-main">
+            Heridas lineales de bordes netos, con “colas” que orientan la dirección del corte.
+          </div>
+          <div class="type-extra">
+            Ejemplos: cuchillo de cocina, bisturí, vidrio, cuchilla.
+          </div>
+        </div>
+
+        <div class="type-card" data-type="corto-punzante">
+          <div class="type-title">
+            <span>CORTO-PUNZANTES</span>
+            <span class="pill">Penetración + sección</span>
+          </div>
+          <div class="type-main">
+            Orificio en “ojal” (a veces estrella), con trayecto profundo y bordes afilados.
+          </div>
+          <div class="type-extra">
+            Ejemplos: navaja, puñal, cuchillo de hoja estrecha.
+          </div>
+        </div>
+
+        <div class="type-card" data-type="corto-contundente">
+          <div class="type-title">
+            <span>CORTO-CONTUNDENTES</span>
+            <span class="pill">Corte + contusión</span>
+          </div>
+          <div class="type-main">
+            Sección de tejidos con bordes irregulares, aplastamiento y posible lesión ósea.
+          </div>
+          <div class="type-extra">
+            Ejemplos: hacha, machete pesado, azada.
+          </div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>¿Predomina la <strong>longitud</strong> o la <strong>profundidad</strong>?</li>
+        <li>¿Los bordes son <strong>nítidos</strong> o <strong>irregulares / machacados</strong>?</li>
+        <li>¿Hay <strong>colas</strong> o prolongaciones que señalen la dirección del instrumento?</li>
+        <li>¿Existen <strong>heridas de defensa</strong> en manos y antebrazos?</li>
+      </ul>
+    </section>
+
+    <!-- COLUMNA DERECHA -->
+    <section>
+      <span class="badge">Paso 2 · Interpretación médico-legal</span>
+      <h2>Ruta forense de la lesión</h2>
+      <p>Del aspecto de la herida a la historia que cuenta.</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <span class="num">1</span>
+          <div><strong>Diagnóstico vital</strong><br>
+            Retracción de bordes, hemorragia / coágulos, infiltración en tejidos ⇒ lesión en vida.
+          </div>
+        </div>
+        <div class="flow-step">
+          <span class="num">2</span>
+          <div><strong>Arma probable</strong><br>
+            Tipo (punzante, cortante, etc.), anchura del orificio, profundidad del trayecto, signos de contusión.
+          </div>
+        </div>
+        <div class="flow-step">
+          <span class="num">3</span>
+          <div><strong>Posición víctima-agresor</strong><br>
+            Localización de la herida, dirección, número de lesiones y presencia de defensas.
+          </div>
+        </div>
+      </div>
+
+      <div class="sem">
+        <div class="sem-card sem-accidental">
+          <h3>Accidental</h3>
+          <ul>
+            <li>Pocas heridas.</li>
+            <li>Trayectos compatibles con la actividad.</li>
+            <li>Contexto claro de accidente doméstico/laboral.</li>
+          </ul>
+        </div>
+        <div class="sem-card sem-suicida">
+          <h3>Suicida</h3>
+          <ul>
+            <li>Zonas accesibles (cuello, muñecas, precordio).</li>
+            <li>Heridas de tanteo cercanas.</li>
+            <li>Generalmente ausencia de defensas.</li>
+          </ul>
+        </div>
+        <div class="sem-card sem-homicida">
+          <h3>Homicida</h3>
+          <ul>
+            <li>Múltiples heridas, a veces por la espalda.</li>
+            <li>Heridas de defensa en manos / antebrazos.</li>
+            <li>Combinación de zonas vitales y no vitales.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="img-panel">
+        <!-- ⚠️ CAMBIA LOS NOMBRES DE ARCHIVO POR LOS QUE SUBAS A GITHUB -->
+        <img src="heridas-arma-blanca.png" alt="Cuadro de tipos de heridas por arma blanca">
+        <div class="img-caption">
+          Esquema visual de lesiones por arma blanca.  
+          Sube tu propia imagen al repositorio con el mismo nombre de archivo para que se vea.
+        </div>
+      </div>
+
+      <div class="tip">
+        💡 CONSEJO DOCENTE: utiliza esta página como ficha de repaso.  
+        Pide al alumnado que señale un tipo de lesión y explique:<br>
+        1) arma probable · 2) posible mecanismo · 3) etiología más verosímil.
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  // Pequeña interacción: resaltar tarjeta seleccionada
+  document.querySelectorAll(".type-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".type-card").forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+    });
+  });
+</script>
+</body>
+</html>
