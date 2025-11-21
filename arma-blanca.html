@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -41,7 +40,7 @@
       border-radius: 24px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
-      padding: 20px 22px 24px;
+      padding: 20px 22px 26px;
     }
     header {
       display: flex;
@@ -116,6 +115,7 @@
       display: grid;
       grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.1fr);
       gap: 16px;
+      margin-bottom: 16px;
     }
     section {
       background: var(--bg-soft);
@@ -303,8 +303,118 @@
       border-color: var(--accent-alt);
       box-shadow: 0 0 18px rgba(69, 224, 168, 0.4);
     }
+
+    /* QUIZ */
+    .quiz {
+      margin-top: 6px;
+      background: #12121f;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .quiz-title {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--accent);
+      margin: 0;
+    }
+    .quiz-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .quiz-counter {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 0.75rem;
+    }
+    .quiz-question {
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+    .quiz-options {
+      display: grid;
+      gap: 6px;
+    }
+    .quiz-option {
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 7px 9px;
+      font-size: 0.85rem;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      transition: background 0.1s ease-out, border-color 0.1s ease-out, transform 0.06s ease-out;
+    }
+    .quiz-option span.key {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .quiz-option:hover {
+      background: rgba(255, 255, 255, 0.07);
+      transform: translateY(-1px);
+    }
+    .quiz-option.correct {
+      border-color: #45e0a8;
+      background: rgba(69, 224, 168, 0.14);
+    }
+    .quiz-option.incorrect {
+      border-color: #ff5678;
+      background: rgba(255, 86, 120, 0.14);
+    }
+    .quiz-feedback {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .quiz-feedback strong.correct {
+      color: #45e0a8;
+    }
+    .quiz-feedback strong.incorrect {
+      color: #ff5678;
+    }
+    .quiz-actions {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .quiz-score {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .quiz-final {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .quiz-final strong {
+      color: var(--accent-alt);
+    }
+
     @media (max-width: 860px) {
       main { grid-template-columns: minmax(0, 1fr); }
+      .quiz-actions { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -449,11 +559,10 @@
       </div>
 
       <div class="img-panel">
-        <!-- ⚠️ CAMBIA LOS NOMBRES DE ARCHIVO POR LOS QUE SUBAS A GITHUB -->
         <img src="Instrucciones-arma-blanca.png" alt="Cuadro de tipos de heridas por arma blanca">
         <div class="img-caption">
           Esquema visual de lesiones por arma blanca.  
-          Sube tu propia imagen al repositorio con el mismo nombre de archivo para que se vea.
+          Utilízalo junto al test para repasar los conceptos clave.
         </div>
       </div>
 
@@ -464,17 +573,290 @@
       </div>
     </section>
   </main>
+
+  <!-- TEST INTERACTIVO -->
+  <section class="quiz">
+    <div class="quiz-header">
+      <h2 class="quiz-title">Test interactivo: ¿Qué sabes de las lesiones por arma blanca?</h2>
+      <div class="quiz-meta">
+        <span class="quiz-counter" id="quiz-counter">Pregunta 1 / 10</span>
+        <span id="quiz-score-mini">Puntuación: 0</span>
+      </div>
+    </div>
+
+    <p style="font-size:0.84rem;color:var(--text-muted);margin-top:0;margin-bottom:8px;">
+      Responde a las preguntas tipo test. Cada vez que juegues, el orden de las preguntas y de las opciones cambia.
+    </p>
+
+    <div class="quiz-body">
+      <div class="quiz-question" id="quiz-question">
+        Cargando pregunta...
+      </div>
+      <div class="quiz-options" id="quiz-options">
+        <!-- Opciones generadas por JavaScript -->
+      </div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+      <div class="quiz-actions">
+        <div class="quiz-score" id="quiz-score"></div>
+        <button class="btn btn-accent" id="quiz-next">Siguiente pregunta ▷</button>
+        <button class="btn" id="quiz-restart" style="display:none;">Reiniciar test ↺</button>
+      </div>
+      <div class="quiz-final" id="quiz-final" style="display:none;"></div>
+    </div>
+  </section>
 </div>
 
 <script>
-  // Pequeña interacción: resaltar tarjeta seleccionada
+  // Resaltar tarjeta seleccionada
   document.querySelectorAll(".type-card").forEach((card) => {
     card.addEventListener("click", () => {
       document.querySelectorAll(".type-card").forEach(c => c.classList.remove("active"));
       card.classList.add("active");
     });
   });
+
+  // ------------------------
+  // TEST INTERACTIVO
+  // ------------------------
+  const questions = [
+    {
+      text: "En una herida por arma blanca donde la profundidad es claramente mayor que la longitud del orificio de entrada, ¿qué tipo de instrumento es más probable?",
+      options: [
+        "Arma punzante (punzón, picahielo)",
+        "Arma cortante (cuchillo de cocina)",
+        "Arma corto-contundente (hacha, machete pesado)"
+      ],
+      correct: 0,
+      explanation: "En las armas punzantes predomina la penetración: la profundidad supera a la longitud visible de la herida."
+    },
+    {
+      text: "Las \"colas\" en una herida lineal orientan la dirección del corte. ¿Con qué tipo de arma se asocian de forma típica?",
+      options: [
+        "Armas corto-contundentes",
+        "Armas cortantes",
+        "Armas punzantes"
+      ],
+      correct: 1,
+      explanation: "Las heridas cortantes, producidas por filos, suelen presentar colas que indican el sentido del deslizamiento."
+    },
+    {
+      text: "Una herida con bordes irregulares, gran profundidad y signos de contusión y laceración de los tejidos sugiere:",
+      options: [
+        "Arma corto-contundente",
+        "Arma cortante",
+        "Arma punzante"
+      ],
+      correct: 0,
+      explanation: "El componente contundente (hacha, machete pesado) produce bordes irregulares y gran destrucción tisular."
+    },
+    {
+      text: "El típico orificio en forma de \"ojal\" con extremos agudos, correspondiente a penetración + sección, se asocia a:",
+      options: [
+        "Armas cortantes",
+        "Armas corto-punzantes (navaja, puñal)",
+        "Armas contundentes puras"
+      ],
+      correct: 1,
+      explanation: "Las armas corto-punzantes combinan corte y penetración, generando orificios en ojal."
+    },
+    {
+      text: "¿Dónde es más frecuente encontrar heridas de defensa en agresiones con arma blanca?",
+      options: [
+        "En la región lumbar",
+        "En manos y antebrazos",
+        "En la planta de los pies"
+      ],
+      correct: 1,
+      explanation: "El sujeto tiende a protegerse con las manos y brazos, donde aparecen cortes y pinchazos defensivos."
+    },
+    {
+      text: "Un patrón de múltiples heridas por arma blanca, algunas por la espalda y con claras heridas de defensa, orienta principalmente hacia:",
+      options: [
+        "Etiología suicida",
+        "Etiología accidental",
+        "Etiología homicida"
+      ],
+      correct: 2,
+      explanation: "La combinación de múltiples lesiones, zonas no accesibles y defensa es típica de agresión homicida."
+    },
+    {
+      text: "Las heridas lineales, de bordes nítidos y regulares, con predominio de la longitud sobre la profundidad se producen habitualmente por:",
+      options: [
+        "Instrumentos cortantes",
+        "Instrumentos punzantes",
+        "Instrumentos contundentes"
+      ],
+      correct: 0,
+      explanation: "Son las clásicas heridas incisas producidas por cuchillos, bisturís o cristales."
+    },
+    {
+      text: "En un posible suicidio por arma blanca en muñecas, es característico encontrar:",
+      options: [
+        "Heridas de tanteo o prueba, superficiales y cercanas entre sí",
+        "Heridas únicas, profundas y en la espalda",
+        "Heridas en manos y antebrazos compatibles con defensa"
+      ],
+      correct: 0,
+      explanation: "Las lesiones suicidas suelen acompañarse de cortes de tanteo y localizaciones accesibles al sujeto."
+    },
+    {
+      text: "¿Qué dato ANATÓMICO de la herida ayuda a estimar la anchura aproximada del arma?",
+      options: [
+        "La longitud de la cola",
+        "La anchura del orificio de entrada",
+        "La presencia de coágulos"
+      ],
+      correct: 1,
+      explanation: "La anchura del orificio, especialmente si la penetración es perpendicular, orienta sobre la anchura del filo o punta."
+    },
+    {
+      text: "Una lesión profunda, con bordes nítidos pero con trayecto que alcanza órganos internos, corresponde mejor a:",
+      options: [
+        "Arma corto-punzante",
+        "Arma contundente",
+        "Arma cortante superficial"
+      ],
+      correct: 0,
+      explanation: "La combinación de borde afilado y trayecto profundo es típica de las armas corto-punzantes."
+    }
+  ];
+
+  // Barajar array (Fisher–Yates)
+  function shuffle(array) {
+    const arr = array.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  let quizQuestions = shuffle(questions).slice(0, 10);
+  let currentIndex = 0;
+  let score = 0;
+  let answered = false;
+
+  const qCounter = document.getElementById("quiz-counter");
+  const qScoreMini = document.getElementById("quiz-score-mini");
+  const qScore = document.getElementById("quiz-score");
+  const qQuestion = document.getElementById("quiz-question");
+  const qOptions = document.getElementById("quiz-options");
+  const qFeedback = document.getElementById("quiz-feedback");
+  const btnNext = document.getElementById("quiz-next");
+  const btnRestart = document.getElementById("quiz-restart");
+  const qFinal = document.getElementById("quiz-final");
+
+  function renderQuestion() {
+    answered = false;
+    const q = quizQuestions[currentIndex];
+    qCounter.textContent = `Pregunta ${currentIndex + 1} / ${quizQuestions.length}`;
+    qQuestion.textContent = q.text;
+    qFeedback.textContent = "";
+    qFinal.style.display = "none";
+
+    const letters = ["A", "B", "C", "D", "E"];
+    const optionOrder = shuffle(q.options.map((opt, idx) => ({opt, idx})));
+
+    qOptions.innerHTML = "";
+    optionOrder.forEach((item, i) => {
+      const btn = document.createElement("button");
+      btn.className = "quiz-option";
+      btn.dataset.indexOriginal = item.idx;
+
+      const keySpan = document.createElement("span");
+      keySpan.className = "key";
+      keySpan.textContent = letters[i];
+
+      const textSpan = document.createElement("span");
+      textSpan.textContent = item.opt;
+
+      btn.appendChild(keySpan);
+      btn.appendChild(textSpan);
+
+      btn.addEventListener("click", () => handleAnswer(btn, q));
+      qOptions.appendChild(btn);
+    });
+
+    qScore.textContent = `Aciertos: ${score} / ${quizQuestions.length}`;
+    qScoreMini.textContent = `Puntuación: ${score}`;
+    btnNext.disabled = true;
+  }
+
+  function handleAnswer(button, question) {
+    if (answered) return;
+    answered = true;
+    const selectedIndex = parseInt(button.dataset.indexOriginal, 10);
+
+    // Marcar todas
+    document.querySelectorAll(".quiz-option").forEach((btn) => {
+      const idx = parseInt(btn.dataset.indexOriginal, 10);
+      if (idx === question.correct) {
+        btn.classList.add("correct");
+      }
+    });
+
+    if (selectedIndex === question.correct) {
+      score++;
+      button.classList.add("correct");
+      qFeedback.innerHTML = `<strong class="correct">Correcto.</strong> ${question.explanation}`;
+    } else {
+      button.classList.add("incorrect");
+      qFeedback.innerHTML = `<strong class="incorrect">Incorrecto.</strong> ${question.explanation}`;
+    }
+
+    qScore.textContent = `Aciertos: ${score} / ${quizQuestions.length}`;
+    qScoreMini.textContent = `Puntuación: ${score}`;
+    btnNext.disabled = false;
+
+    if (currentIndex === quizQuestions.length - 1) {
+      btnNext.textContent = "Ver resultado final";
+    }
+  }
+
+  btnNext.addEventListener("click", () => {
+    if (!answered) return;
+    if (currentIndex < quizQuestions.length - 1) {
+      currentIndex++;
+      btnNext.textContent = "Siguiente pregunta ▷";
+      renderQuestion();
+    } else {
+      showFinalResult();
+    }
+  });
+
+  btnRestart.addEventListener("click", () => {
+    quizQuestions = shuffle(questions).slice(0, 10);
+    currentIndex = 0;
+    score = 0;
+    btnRestart.style.display = "none";
+    btnNext.style.display = "inline-flex";
+    btnNext.textContent = "Siguiente pregunta ▷";
+    renderQuestion();
+  });
+
+  function showFinalResult() {
+    qFinal.style.display = "block";
+    let msg;
+    const max = quizQuestions.length;
+    const ratio = score / max;
+
+    if (ratio === 1) {
+      msg = "Perfecto. Perfil CSI total: dominas las lesiones por arma blanca.";
+    } else if (ratio >= 0.7) {
+      msg = "Muy buen nivel. Solo se te escapan algunos matices.";
+    } else if (ratio >= 0.4) {
+      msg = "Nivel medio. Revisa el esquema y vuelve a intentarlo.";
+    } else {
+      msg = "Nivel básico. Te vendrá bien repasar el mapa de lesiones con calma.";
+    }
+
+    qFinal.innerHTML = `<strong>Resultado final:</strong> ${score} / ${max} aciertos. ${msg}`;
+    btnNext.style.display = "none";
+    btnRestart.style.display = "inline-flex";
+  }
+
+  // Inicializar
+  renderQuestion();
 </script>
 </body>
 </html>
-
