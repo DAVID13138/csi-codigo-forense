@@ -857,105 +857,11 @@
   // Inicializar
   renderQuestion();
 </script>
-  <hr style="margin:40px 0; border:none; height:1px; background:rgba(255,255,255,0.15);">
-
-<section style="margin-top:20px">
-  <h2 style="color:#ff5678; letter-spacing:2px;">🧪 TEST FORENSE INTERACTIVO</h2>
-  <p style="color:#b2b5d6;font-size:0.9rem">Responde y comprueba tus conocimientos sobre lesiones por arma blanca.</p>
-
-  <div id="quiz-box" style="background:#1f1f30;padding:15px;border-radius:16px;border:1px solid rgba(255,255,255,0.15)">
-    <h3 id="question" style="margin-bottom:10px"></h3>
-
-    <div id="answers" style="display:grid;gap:10px;"></div>
-
-    <p id="result" style="margin-top:10px;font-weight:600;"></p>
-
-    <button onclick="nextQuestion()" 
-    style="margin-top:10px;padding:8px 15px;border:none;border-radius:20px;
-    background:#45e0a8;color:#001f15;font-weight:bold;cursor:pointer;">
-      Siguiente pregunta
-    </button>
-  </div>
-</section>
-
-<script>
-const questions = [
-  {
-    q: "¿Qué tipo de herida predomina en las lesiones punzantes?",
-    a: ["Longitud superficial", "Profundidad", "Contusión extensa"],
-    correct: 1
-  },
-  {
-    q: "Una herida con bordes irregulares y aplastamiento indica un arma...",
-    a: ["Cortante", "Corto-contundente", "Punzante"],
-    correct: 1
-  },
-  {
-    q: "Las heridas de defensa suelen aparecer en:",
-    a: ["Piernas", "Manos y antebrazos", "Espalda"],
-    correct: 1
-  },
-  {
-    q: "El término 'cola de rata' en una herida indica:",
-    a: ["Dirección del corte", "Tipo de arma de fuego", "Profundidad extrema"],
-    correct: 0
-  },
-  {
-    q: "Varias heridas por la espalda sugieren etiología:",
-    a: ["Accidental", "Suicida", "Homicida"],
-    correct: 2
-  }
-];
-
-let current = 0;
-
-function loadQuestion(){
-  const q = questions[current];
-  document.getElementById("question").innerText = q.q;
-  const answersBox = document.getElementById("answers");
-  answersBox.innerHTML = "";
-  document.getElementById("result").innerText = "";
-
-  q.a.forEach((ans, index) => {
-    const btn = document.createElement("button");
-    btn.innerText = ans;
-    btn.style.padding = "10px";
-    btn.style.borderRadius = "12px";
-    btn.style.border = "1px solid rgba(255,255,255,0.2)";
-    btn.style.background = "#191927";
-    btn.style.color = "white";
-    btn.style.cursor = "pointer";
-
-    btn.onclick = () => checkAnswer(index);
-    answersBox.appendChild(btn);
-  });
-}
-
-function checkAnswer(selected){
-  const correct = questions[current].correct;
-  const result = document.getElementById("result");
-
-  if(selected === correct){
-    result.style.color = "#45e0a8";
-    result.innerText = "✅ Correcto";
-  } else {
-    result.style.color = "#ff5678";
-    result.innerText = "❌ Incorrecto";
-  }
-}
-
-function nextQuestion(){
-  current++;
-  if(current >= questions.length){
-    current = 0;
-  }
-  loadQuestion();
-}
-
-loadQuestion();
+  
 </script>
 
 </body>
 </html>
+
 
 
