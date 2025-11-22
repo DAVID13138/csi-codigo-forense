@@ -734,7 +734,7 @@
       <div class="quiz-final" id="quiz-final" style="display:none;"></div>
             <div id="certificate" class="certificate" style="display:none;">
         <h3>CERTIFICADO DE APROVECHAMIENTO</h3>
-        <p><strong>Alumno/a:</strong> ALUMNO Nº47 2ºB USAL</p>
+        <p><strong>Alumno/a:</strong> ALUMNO: Nº47 Sc 2ºB USAL</p>
         <p><strong>Curso:</strong> MEDICINA LEGAL</p>
         <p><strong>Unidad didáctica:</strong> Lesiones por arma blanca</p>
         <p><strong>Resultado:</strong> <span id="cert-result"></span></p>
@@ -1094,6 +1094,13 @@
     qFinal.innerHTML = `<strong>Resultado final:</strong> ${score} / ${max} aciertos. ${msg}`;
     btnNext.style.display = "none";
     btnRestart.style.display = "inline-flex";
+    
+    // Mostrar certificado
+document.getElementById("certificate").style.display = "block";
+document.getElementById("cert-result").textContent = score + " / " + max;
+document.getElementById("cert-grade").textContent = Math.round((score / max) * 10);
+document.getElementById("cert-date").textContent = new Date().toLocaleDateString();
+
   }
 
   // Inicializar
@@ -1102,6 +1109,7 @@
 
 </body>
 </html>
+
 
 
 
