@@ -13,7 +13,7 @@
       --accent-alt: #45e0a8;
       --text-main: #f8f8ff;
       --text-muted: #b2b5d6;
-      --card: #1f1f30;
+      --const questions = [
       --border: rgba(255, 255, 255, 0.12);
       --radius: 18px;
       --shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
@@ -736,7 +736,7 @@
   // ------------------------
   // TEST INTERACTIVO
   // ------------------------
-  const questions = [
+    const questions = [
     {
       text: "En una herida por arma blanca donde la profundidad es claramente mayor que la longitud del orificio de entrada, ¿qué tipo de instrumento es más probable?",
       options: [
@@ -818,7 +818,7 @@
       explanation: "Las lesiones suicidas suelen acompañarse de cortes de tanteo y localizaciones accesibles al sujeto."
     },
     {
-      text: "¿Qué dato ANATÓMICO de la herida ayuda a estimar la anchura aproximada del arma?",
+      text: "¿Qué dato anatómico de la herida ayuda a estimar la anchura aproximada del arma?",
       options: [
         "La longitud de la cola",
         "La anchura del orificio de entrada",
@@ -836,59 +836,109 @@
       ],
       correct: 0,
       explanation: "La combinación de borde afilado y trayecto profundo es típica de las armas corto-punzantes."
-    }
+    },
     {
-  text: "La presencia de coágulos en el fondo de la herida indica que:",
-  options: [
-    "La herida se produjo post-mortem",
-    "La lesión se produjo en vida",
-    "La herida fue artificial"
-  ],
-  correct: 1,
-  explanation: "La presencia de coágulos y reacción tisular indica lesión en vida (diagnóstico vital positivo)."
-},
-{
-  text: "Una herida incisa con bordes muy limpios y sin contusión alrededor es típica de:",
-  options: [
-    "Un arma punzante",
-    "Un arma cortante afilada",
-    "Un objeto contundente romo"
-  ],
-  correct: 1,
-  explanation: "Las armas cortantes dejan bordes limpios y bien definidos sin aplastamiento."
-},
-{
-  text: "¿Qué tipo de herida es más probable que cause hemorragia externa abundante?",
-  options: [
-    "Punzante profunda",
-    "Cortante superficial extensa",
-    "Contusa"
-  ],
-  correct: 1,
-  explanation: "Las heridas cortantes largas afectan muchos vasos superficiales y suelen sangrar mucho."
-},
-{
-  text: "El hallazgo de heridas defensivas indica: ",
-  options: [
-    "Suicidio",
-    "Accidente",
-    "Intento de protegerse de una agresión"
-  ],
-  correct: 2,
-  explanation: "Las heridas defensivas aparecen cuando la víctima intenta protegerse ante un ataque."
-},
-{
-  text: "Un solo corte profundo en cuello, en persona diestra, sugiere más probablemente:",
-  options: [
-    "Suicidio",
-    "Homicidio",
-    "Accidente laboral"
-  ],
-  correct: 0,
-  explanation: "Las lesiones suicidas suelen localizarse en zonas accesibles y en dirección compatible con la mano dominante."
-}
-
+      text: "La presencia de coágulos e infiltración hemorrágica en los tejidos indica:",
+      options: [
+        "Lesión post-mortem",
+        "Lesión producida en vida",
+        "Lesión artificial sobre un cadáver conservado"
+      ],
+      correct: 1,
+      explanation: "Coágulos y hemorragia infiltrada son signos de vitalidad: la lesión se produjo en vida."
+    },
+    {
+      text: "Una herida incisa con bordes muy limpios y sin contusión alrededor es típica de:",
+      options: [
+        "Un arma punzante",
+        "Un arma cortante bien afilada",
+        "Un objeto contundente romo"
+      ],
+      correct: 1,
+      explanation: "Las armas cortantes dejan bordes limpios y bien definidos, sin aplastamiento."
+    },
+    {
+      text: "¿Qué tipo de herida suele producir más hemorragia externa visible?",
+      options: [
+        "Herida cortante extensa y superficial",
+        "Herida punzante pequeña",
+        "Herida contusa cerrada"
+      ],
+      correct: 0,
+      explanation: "Las heridas cortantes largas afectan más vasos superficiales y sangran de forma llamativa."
+    },
+    {
+      text: "Múltiples heridas agrupadas en tórax anterior, de dirección similar y accesibles al sujeto, sugieren con más probabilidad:",
+      options: [
+        "Accidente",
+        "Suicidio",
+        "Homicidio"
+      ],
+      correct: 1,
+      explanation: "En el suicidio suele haber varias heridas de tanteo y lesiones en zonas accesibles como precordio."
+    },
+    {
+      text: "La ausencia de heridas de defensa en manos y antebrazos en una muerte por arma blanca:",
+      options: [
+        "Descarta el homicidio",
+        "Puede ser compatible con suicidio",
+        "Obliga a pensar en accidente"
+      ],
+      correct: 1,
+      explanation: "La ausencia de defensas puede observarse en suicidios o en víctimas sorprendidas; no descarta homicidio."
+    },
+    {
+      text: "Una herida perforante que atraviesa completamente una extremidad, con orificio de entrada y de salida, es más propia de:",
+      options: [
+        "Arma corto-contundente",
+        "Arma punzante de gran longitud",
+        "Arma cortante superficial"
+      ],
+      correct: 1,
+      explanation: "Las armas punzantes largas pueden producir trayectos perforantes con orificio de salida."
+    },
+    {
+      text: "En lesiones por arma blanca, la localización en cuello, muñecas y región precordial se considera:",
+      options: [
+        "Zonas típicas de accidente",
+        "Zonas de elección en conductas suicidas",
+        "Zonas sin relevancia médico-legal"
+      ],
+      correct: 1,
+      explanation: "Estas localizaciones son clásicas en lesiones suicidas por arma blanca."
+    },
+    {
+      text: "Las heridas contuso-cortantes suelen deberse a:",
+      options: [
+        "Instrumentos de filo muy fino",
+        "Instrumentos pesados con borde cortante (hacha, machete)",
+        "Instrumentos punzantes muy estrechos"
+      ],
+      correct: 1,
+      explanation: "El peso y el filo combinados producen corte con contusión y gran destrucción tisular."
+    },
+    {
+      text: "La orientación de la \"cola\" en una herida cortante informa sobre:",
+      options: [
+        "La velocidad del golpe",
+        "La dirección del deslizamiento del arma",
+        "La longitud total del arma"
+      ],
+      correct: 1,
+      explanation: "La cola marca el sentido en el que el filo se ha deslizado sobre la piel."
+    },
+    {
+      text: "Se observa una única herida profunda en región escapular (espalda), sin heridas de tanteo ni defensas. Esto orienta más hacia:",
+      options: [
+        "Agresión sorpresiva (homicida)",
+        "Suicidio",
+        "Accidente doméstico"
+      ],
+      correct: 0,
+      explanation: "Las heridas por la espalda sin defensas suelen corresponder a agresiones por sorpresa."
+    }
   ];
+
 
   // Barajar array (Fisher–Yates)
   function shuffle(array) {
@@ -1030,6 +1080,7 @@
 
 </body>
 </html>
+
 
 
 
